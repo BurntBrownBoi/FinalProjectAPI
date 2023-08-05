@@ -33,13 +33,12 @@ namespace FinalProjectAPI.Controllers
 
         // GET: api/FavoriteMovies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<FavoriteMovie>>> GetFavoriteMovies(int? id)
+        public async Task<ActionResult<FavoriteMovie>> GetFavoriteMovie(int id)
         {
-            if (id == null || id == 0)
-            {
-                return await _context.FavoriteMovies.Take(5).ToListAsync();
-            }
-
+          if (_context.FavoriteMovies == null)
+          {
+                return Ok(await _context.FavoriteMovies.Take(5).ToListAsync());
+          }
             var favoriteMovie = await _context.FavoriteMovies.FindAsync(id);
 
             if (favoriteMovie == null)
