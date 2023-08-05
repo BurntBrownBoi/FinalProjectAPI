@@ -33,12 +33,13 @@ namespace FinalProjectAPI.Controllers
 
         // GET: api/FavoriteFoods/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FavoriteFood>> GetFavoriteFood(int id)
+        public async Task<ActionResult<IEnumerable<FavoriteFood>>> GetFavoriteFoods(int? id)
         {
-          if (_context.FavoriteFoods == null)
-          {
-              return NotFound();
-          }
+            if (id == null || id == 0)
+            {
+                return await _context.FavoriteFoods.Take(5).ToListAsync();
+            }
+
             var favoriteFood = await _context.FavoriteFoods.FindAsync(id);
 
             if (favoriteFood == null)

@@ -33,12 +33,13 @@ namespace FinalProjectAPI.Controllers
 
         // GET: api/TeamMembers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TeamMember>> GetTeamMember(int id)
+        public async Task<ActionResult<IEnumerable<TeamMember>>> GetTeamMembers(int? id)
         {
-          if (_context.TeamMembers == null)
-          {
-              return NotFound();
-          }
+            if (id == null || id == 0)
+            {
+                return await _context.TeamMembers.Take(5).ToListAsync();
+            }
+
             var teamMember = await _context.TeamMembers.FindAsync(id);
 
             if (teamMember == null)
